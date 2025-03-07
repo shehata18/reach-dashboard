@@ -1,0 +1,1 @@
+<img src="{{ asset('images/reach-logo-tansparent.png') }}" alt="Reach Logo" class="h-20">
