@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Service extends Model
 {
@@ -57,5 +58,20 @@ class Service extends Model
     public function getImageAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    public function getIconUrlAttribute()
+    {
+        return $this->icon ? Storage::disk('public')->url($this->icon) : null;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? Storage::disk('public')->url($this->image) : null;
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }

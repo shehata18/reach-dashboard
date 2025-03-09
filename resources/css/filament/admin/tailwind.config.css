@@ -1,0 +1,9 @@
+@layer components {
+    .filament-tables-pagination-container select {
+        @apply dark:text-white dark:bg-gray-700 dark:border-gray-600;
+    }
+
+    .filament-tables-pagination-container option {
+        @apply dark:text-white dark:bg-gray-700;
+    }
+} 

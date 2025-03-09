@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('team_members', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('description');
-            $table->json('features')->nullable(); // Changed from text to json
-            $table->string('icon')->nullable();
+            $table->string('name');
+            $table->string('position');
+            $table->text('bio')->nullable();
             $table->string('image')->nullable();
+            $table->string('email')->nullable();
+            $table->string('linkedin_url')->nullable();
+            $table->string('github_url')->nullable();
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('team_members');
     }
 };
