@@ -1,0 +1,767 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "REACH API Documentation",
+        "description": "API documentation for REACH website",
+        "contact": {
+            "name": "API Support",
+            "email": "reach@reachksa.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get all active projects",
+                "description": "Returns a paginated list of projects with optional filtering and sorting",
+                "operationId": "projectsList",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "query",
+                        "description": "Filter by service ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "featured",
+                        "in": "query",
+                        "description": "Filter by featured status",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search in title, description and client name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "technologies[]",
+                        "in": "query",
+                        "description": "Filter by technologies (multiple values allowed)",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort field (title, created_at, completion_date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "title",
+                                "created_at",
+                                "completion_date"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Sort order (asc, desc)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page (default: 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "E-commerce Platform"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "e-commerce-platform"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "client_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "service": {
+                                                        "type": "string"
+                                                    },
+                                                    "completion_date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "technologies": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "website_url": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "gallery": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "is_featured": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": "integer"
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                },
+                                                "to": {
+                                                    "type": "integer"
+                                                },
+                                                "total": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string"
+                                                },
+                                                "last": {
+                                                    "type": "string"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/api/projects/{slug}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get project by slug",
+                "description": "Returns detailed information for a specific project",
+                "operationId": "projectsShow",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the project",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "E-commerce Platform"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "e-commerce-platform"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "A full-featured e-commerce solution"
+                                                },
+                                                "client_name": {
+                                                    "type": "string",
+                                                    "example": "ACME Corporation"
+                                                },
+                                                "service": {
+                                                    "type": "string",
+                                                    "example": "Web Development"
+                                                },
+                                                "completion_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-03-15"
+                                                },
+                                                "technologies": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "Laravel",
+                                                        "Vue.js",
+                                                        "MySQL"
+                                                    ]
+                                                },
+                                                "website_url": {
+                                                    "type": "string",
+                                                    "example": "https://example.com"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/storage/projects/image.jpg"
+                                                },
+                                                "gallery": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "https://example.com/storage/projects/gallery1.jpg",
+                                                        "https://example.com/storage/projects/gallery2.jpg"
+                                                    ]
+                                                },
+                                                "is_featured": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Project not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Project not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/projects/featured": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get featured projects",
+                "description": "Returns a list of featured projects",
+                "operationId": "projectsFeatured",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Project"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/projects/by-service/{serviceId}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get projects by service",
+                "description": "Returns a list of projects for a specific service",
+                "operationId": "projectsByService",
+                "parameters": [
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "description": "ID of the service",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Project"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Service not found"
+                    }
+                }
+            }
+        },
+        "/api/services": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get all active services",
+                "description": "Returns a list of all active services with their projects count",
+                "operationId": "servicesList",
+                "parameters": [
+                    {
+                        "name": "with_projects",
+                        "in": "query",
+                        "description": "Include related projects",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "features": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "icon": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "projects_count": {
+                                                        "type": "integer"
+                                                    },
+                                                    "sort_order": {
+                                                        "type": "integer"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/{slug}": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get service by slug",
+                "description": "Returns detailed information for a specific service including its projects",
+                "operationId": "servicesShow",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the service",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "title": {
+                                                    "type": "string"
+                                                },
+                                                "slug": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "features": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "icon": {
+                                                    "type": "string"
+                                                },
+                                                "image": {
+                                                    "type": "string"
+                                                },
+                                                "projects": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Project"
+                                                    }
+                                                },
+                                                "sort_order": {
+                                                    "type": "integer"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Service not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Project": {
+                "title": "Project",
+                "description": "Project model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "E-commerce Platform"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "e-commerce-platform"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "A full-featured e-commerce solution"
+                    },
+                    "client_name": {
+                        "type": "string",
+                        "example": "ACME Corporation"
+                    },
+                    "service": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "Web Development"
+                            },
+                            "slug": {
+                                "type": "string",
+                                "example": "web-development"
+                            },
+                            "icon": {
+                                "type": "string",
+                                "example": "http://example.com/storage/icons/web.svg"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "completion_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-03-15"
+                    },
+                    "technologies": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "Laravel",
+                            "Vue.js",
+                            "MySQL"
+                        ]
+                    },
+                    "website_url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "http://example.com/storage/projects/main.jpg"
+                    },
+                    "gallery": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "http://example.com/storage/projects/1.jpg",
+                            "http://example.com/storage/projects/2.jpg"
+                        ]
+                    },
+                    "is_featured": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-15 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-15 12:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Service": {
+                "title": "Service",
+                "description": "Service model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "web-development"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Full-stack web development services"
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "Custom Web Applications",
+                            "API Development",
+                            "Database Design"
+                        ]
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": "http://example.com/storage/icons/web.svg"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "http://example.com/storage/services/web.jpg"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "projects_count": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "projects": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Project"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-15 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-03-15 12:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Projects",
+            "description": "Projects"
+        },
+        {
+            "name": "Services",
+            "description": "Services"
+        }
+    ]
+}
