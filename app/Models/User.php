@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+      protected function createdAtFormatted(): Attribute
+    {
+        return Attribute::make(get: fn($value, $attributes) => $attributes['created_at']->format('H:i d, M Y'));
+    }
+
+    protected function updatedAtFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['updated_at']->format('H:i d, M Y'),
+        );
+    }
 }

@@ -32,8 +32,12 @@ Route::prefix('projects')->group(function () {
 });
 
 // Posts
-Route::get('posts', [PostController::class, 'index']);
-Route::get('posts/{slug}', [PostController::class, 'show']);
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'index']);
+    Route::get('/latest', [PostController::class, 'latest']);
+    Route::get('/archive/{year}/{month?}', [PostController::class, 'archive']);
+    Route::get('/{slug}', [PostController::class, 'show']);
+});
 
 // Team Members
 Route::get('team', [TeamMemberController::class, 'index']);
@@ -43,5 +47,9 @@ Route::get('team/{id}', [TeamMemberController::class, 'show']);
 Route::post('contact', [ContactSubmissionController::class, 'store']);
 
 // Services
-Route::get('services', [ServiceController::class, 'index']);
-Route::get('services/{slug}', [ServiceController::class, 'show']);
+Route::prefix('services')->group(function () {
+    Route::get('/', [ServiceController::class, 'index']);
+    Route::get('/features', [ServiceController::class, 'features']);
+    Route::get('/stats', [ServiceController::class, 'stats']);
+    Route::get('/{slug}', [ServiceController::class, 'show']);
+});

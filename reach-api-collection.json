@@ -1,0 +1,329 @@
+{
+  "info": {
+    "name": "REACH API",
+    "description": "API documentation for REACH website",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/projects",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects"],
+              "query": [
+                {
+                  "key": "service",
+                  "value": "1",
+                  "description": "Filter by service ID"
+                },
+                {
+                  "key": "featured",
+                  "value": "true",
+                  "description": "Filter by featured status"
+                },
+                {
+                  "key": "search",
+                  "value": "keyword",
+                  "description": "Search in title, description, and client name"
+                },
+                {
+                  "key": "technologies[]",
+                  "value": "php",
+                  "description": "Filter by technologies used"
+                },
+                {
+                  "key": "sort",
+                  "value": "sort_order",
+                  "description": "Sort field (title, created_at, completion_date, sort_order)"
+                },
+                {
+                  "key": "order",
+                  "value": "asc",
+                  "description": "Sort direction (asc, desc)"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/projects/{slug}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "{slug}"]
+            }
+          }
+        },
+        {
+          "name": "Get Featured Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/projects/featured",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Get Projects by Service",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/projects/by-service/{serviceId}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", "by-service", "{serviceId}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "List Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/posts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts"],
+              "query": [
+                {
+                  "key": "include_unpublished",
+                  "value": "false",
+                  "description": "Include unpublished posts"
+                },
+                {
+                  "key": "search",
+                  "value": "keyword",
+                  "description": "Search in title and content"
+                },
+                {
+                  "key": "date_from",
+                  "value": "2024-01-01",
+                  "description": "Filter by start date"
+                },
+                {
+                  "key": "date_to",
+                  "value": "2024-12-31",
+                  "description": "Filter by end date"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "published_at",
+                  "description": "Sort field (title, published_at, created_at)"
+                },
+                {
+                  "key": "sort_direction",
+                  "value": "desc",
+                  "description": "Sort direction"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Post Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/posts/{slug}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "{slug}"]
+            }
+          }
+        },
+        {
+          "name": "Get Latest Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/posts/latest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "latest"]
+            }
+          }
+        },
+        {
+          "name": "Get Posts Archive",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/posts/archive/{year}/{month}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "posts", "archive", "{year}", "{month}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "List Services",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/services",
+              "host": ["{{base_url}}"],
+              "path": ["api", "services"],
+              "query": [
+                {
+                  "key": "include_inactive",
+                  "value": "false",
+                  "description": "Include inactive services"
+                },
+                {
+                  "key": "search",
+                  "value": "keyword",
+                  "description": "Search in title and description"
+                },
+                {
+                  "key": "features",
+                  "value": "feature1,feature2",
+                  "description": "Filter by features"
+                },
+                {
+                  "key": "with_projects",
+                  "value": "true",
+                  "description": "Include related projects"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "sort_order",
+                  "description": "Sort field (title, sort_order, created_at, projects_count)"
+                },
+                {
+                  "key": "sort_direction",
+                  "value": "asc",
+                  "description": "Sort direction"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Service Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/services/{slug}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "services", "{slug}"]
+            }
+          }
+        },
+        {
+          "name": "Get Service Features",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/services/features",
+              "host": ["{{base_url}}"],
+              "path": ["api", "services", "features"]
+            }
+          }
+        },
+        {
+          "name": "Get Service Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/services/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "services", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Team Members",
+      "item": [
+        {
+          "name": "List Team Members",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/team",
+              "host": ["{{base_url}}"],
+              "path": ["api", "team"]
+            }
+          }
+        },
+        {
+          "name": "Get Team Member Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/team/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "team", "{id}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "item": [
+        {
+          "name": "Submit Contact Form",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/contact",
+              "host": ["{{base_url}}"],
+              "path": ["api", "contact"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": {
+                "name": "John Doe",
+                "email": "john@example.com",
+                "phone": "+1234567890",
+                "company": "ACME Inc",
+                "subject": "Project Inquiry",
+                "message": "I would like to discuss a project"
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://your-domain.com",
+      "type": "string"
+    }
+  ]
+} 
