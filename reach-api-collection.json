@@ -317,6 +317,190 @@
           }
         }
       ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "List Jobs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "keyword",
+                  "description": "Search in title and description"
+                },
+                {
+                  "key": "department",
+                  "value": "engineering",
+                  "description": "Filter by department"
+                },
+                {
+                  "key": "location",
+                  "value": "remote",
+                  "description": "Filter by location"
+                },
+                {
+                  "key": "type",
+                  "value": "full-time",
+                  "description": "Filter by job type"
+                },
+                {
+                  "key": "sort",
+                  "value": "created_at",
+                  "description": "Sort field (title, created_at, deadline)"
+                },
+                {
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort direction (asc, desc)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Active Jobs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs/active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Job Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs/{slug}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs", "{slug}"]
+            }
+          }
+        },
+        {
+          "name": "Submit Job Application",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/jobs/apply",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs", "apply"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "job_id",
+                  "value": "1",
+                  "type": "text",
+                  "description": "ID of the job being applied for"
+                },
+                {
+                  "key": "full_name",
+                  "value": "John Doe",
+                  "type": "text",
+                  "description": "Full name of the applicant"
+                },
+                {
+                  "key": "email",
+                  "value": "john@example.com",
+                  "type": "text",
+                  "description": "Email address of the applicant"
+                },
+                {
+                  "key": "phone",
+                  "value": "+1234567890",
+                  "type": "text",
+                  "description": "Phone number (optional)"
+                },
+                {
+                  "key": "cover_letter",
+                  "value": "I am writing to express my interest...",
+                  "type": "text",
+                  "description": "Cover letter (optional)"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "description": "Resume/CV file (PDF, DOC, DOCX, max 2MB)"
+                }
+              ]
+            },
+            "description": "Submit a new job application. The resume must be sent as a file in the form-data.",
+            "response": [
+              {
+                "name": "Success Response",
+                "originalRequest": {
+                  "method": "POST",
+                  "url": {
+                    "raw": "{{base_url}}/api/jobs/apply"
+                  }
+                },
+                "status": "Created",
+                "code": 201,
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "success": true,
+                  "message": "Application submitted successfully",
+                  "data": {
+                    "id": 1,
+                    "job_id": 1,
+                    "full_name": "John Doe",
+                    "email": "john@example.com",
+                    "phone": "+1234567890",
+                    "cover_letter": "I am writing to express my interest...",
+                    "resume_path": "resumes/filename.pdf",
+                    "status": "pending",
+                    "created_at": "2024-03-15T10:00:00.000000Z",
+                    "updated_at": "2024-03-15T10:00:00.000000Z"
+                  }
+                }
+              },
+              {
+                "name": "Validation Error Response",
+                "originalRequest": {
+                  "method": "POST",
+                  "url": {
+                    "raw": "{{base_url}}/api/jobs/apply"
+                  }
+                },
+                "status": "Unprocessable Entity",
+                "code": 422,
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "success": false,
+                  "message": "Validation errors",
+                  "errors": {
+                    "job_id": ["The job id field is required."],
+                    "full_name": ["The full name field is required."],
+                    "email": ["The email field is required."],
+                    "resume": ["The resume field is required."]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "variable": [

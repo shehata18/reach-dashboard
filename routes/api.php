@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TeamMemberController;
 use App\Http\Controllers\Api\ContactSubmissionController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\JobController;
+use App\Http\Controllers\Api\JobApplicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,4 +54,12 @@ Route::prefix('services')->group(function () {
     Route::get('/features', [ServiceController::class, 'features']);
     Route::get('/stats', [ServiceController::class, 'stats']);
     Route::get('/{slug}', [ServiceController::class, 'show']);
+});
+
+// Jobs
+Route::prefix('jobs')->group(function () {
+    Route::get('/', [JobController::class, 'index']);
+    Route::get('/active', [JobController::class, 'active']);
+    Route::get('/{slug}', [JobController::class, 'show']);
+    Route::post('/apply', [JobApplicationController::class, 'store']);
 });
